@@ -1,0 +1,180 @@
+<link href="<?php echo base_url("assets/") ?>/vendors/select2/dist/css/select2.min.css" rel="stylesheet" />
+
+<script src="<?php echo base_url("assets/") ?>/vendors/select2/dist/js/select2.min.js"></script>
+
+ 
+ 
+
+<div class="row">
+<div class="col-md-12">
+<h3> <center> LAPORAN   GRAFIK BELANJA PER  SKPD  </center> </h3>
+</div>
+</div>
+<hr /> 
+
+<div class="row">
+<div class="col-md-12">
+
+  <form id="perbandingan" data-parsley-validate class="form-horizontal form-label-left">
+
+
+
+  <div class="form-group">
+    <label class="control-label col-md-2 col-sm-3 col-xs-12" for="tahun">Tahun Anggaran
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <input type="text" value="<?php echo date("Y"); ?>"  name="tahun"  id="tahun" required="required" class="form-control col-md-7 col-xs-12">
+    </div>
+  </div>
+
+
+   <div class="form-group">
+    <label class="control-label col-md-2 col-sm-3 col-xs-12" for="id_unit">SKPD
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      	<?php echo form_dropdown("id_unit",$arr_unit, '','id="id_unit" class="form-control col-md-7 col-xs-12"') ?> 
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label class="control-label col-md-2 col-sm-3 col-xs-12" for="id_unit">Cari Rekening
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      	<?php 
+
+      	echo form_dropdown("cari_rekening",$arr_belanja, '','id="cari_rekening" class="form-control col-md-7 col-xs-12 js-example-basic-single"') ?> 
+    </div>
+    <div class="col-md-1">
+       <a href="#" id="tambah" class="btn btn-primary">Tambah </a>
+    </div>
+  </div>
+
+
+
+  <div class="form-group">
+    <label class="control-label col-md-2 col-sm-3 col-xs-12" for="id_unit">Rekening 
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      	 
+      	 <select multiple name="kode_rekening[]" id="kode_rekening" class="form-control col-md-7 col-xs-12">
+      	 </select>
+
+    </div>
+    <div class="col-md-1">
+       <a href="#" id="hapus" class="btn btn-danger">Hapus </a>
+    </div>
+  </div>
+
+<hr />
+  <div class="form-group">
+    <label class="control-label col-md-2 col-sm-3 col-xs-12" for="id_unit"> 
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      	 
+      	 <button class="btn btn-primary btn-block">QUERY </button>
+
+    </div>
+    
+  </div>
+
+
+
+	<!-- <div class="form-group">
+    <label for="tahun">Tahun Anggaran</label>
+    <input type="text" id="tahun" name="tahun" value="<?php echo date("Y"); ?>"   placeholder="Tahun Anggaran" class="form-control">
+  </div> -->
+
+<!-- 
+ <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                        <input type="text" class="form-control has-feedback-left" id="inputSuccess2" placeholder="First Name">
+                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                      </div>
+ -->
+
+</form>
+
+</div>
+ </div>
+
+
+
+
+
+<div id="hasil"> 
+
+</div>
+
+
+<!-- top tiles -->
+          
+
+
+
+<script type="text/javascript">
+ 
+
+  
+$(document).ready(function(){
+
+   // alert('hae');
+   $("#cari_rekening, #id_unit").select2(); 
+
+   $("#tambah").click(function(e){
+   		// return !$('#cari_rekening option:selected').appendTo('#kode_rekening'); 
+   		$('#cari_rekening option:selected').appendTo('#kode_rekening'); 
+   		  
+   		e.preventDefault();
+   });
+
+
+   $("#hapus").click(function(e){
+   		 $('#kode_rekening option:selected').remove(); 
+   		// return !$('#kode_rekening option:selected').remove(); 
+   		 $('#kode_rekening option').prop('selected', true);
+   		e.preventDefault();
+   });
+
+
+
+   $("#perbandingan").submit(function(){
+
+   		$('#kode_rekening option').prop('selected', true);
+
+   		$.ajax({
+   			url :'<?php echo site_url("laporan_belanja_skpd/query") ?>',
+   			type : 'post',
+   			data : $(this).serialize(), 
+   			success : function(htmldata) {
+   				console.log(htmldata);
+   				$("#hasil").html(htmldata); 
+   			}
+   		});
+   		return false;
+   });
+
+});
+
+
+function tambah(){
+	//alert('mana mana ');
+
+	 
+	/// return false;
+}
+
+function query(){
+   $.ajax({
+      url : '<?php echo site_url("laporan_skpd/query")  ?>',
+      data : {tahun : $("#tahun").val() },
+      type : 'post',
+      success : function(htmldata) {
+          $("#hasil").html(htmldata); 
+
+      }
+   })
+}
+
+</script>
+
+

@@ -1,0 +1,3 @@
+1. Tambahkan tab baru di apbd per skpd untuk program kegiatan 
+2. TAMBAH TAB DI MENU : PAGU APBD MENURUT ORGANISASI 
+3. menu pagu apbd. table ditambahkan kolom pendapatan dan pembiayaan 
